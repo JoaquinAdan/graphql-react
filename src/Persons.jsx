@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react'
 import usePerson from './hooks/use-person'
+import { PhoneForm } from './PhoneForm'
 
 const Persons = ({ persons }) => {
   const [person, setPerson] = useState(null)
@@ -29,10 +30,11 @@ const Persons = ({ persons }) => {
     <div>
       <h2>Persons</h2>
       {persons?.map((person, id) => (
-        <div key={id} onClick={() => showPerson(person.name)}>
-          <p>
+        <div key={id} style={{ display: 'flex', width: '400px', justifyContent: 'space-between' }}>
+          <p onClick={() => showPerson(person.name)}>
             {person.name} {person.phone}
           </p>
+          <PhoneForm name={person.name} />
         </div>
       ))}
     </div>

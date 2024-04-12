@@ -1,24 +1,28 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import useCreatePerson from './hooks/use-create-person'
 
-export const PersonForm = () => {
+export const PersonForm = ({ notifyError }) => {
   const [name, setName] = useState('')
   const [phone, setPhone] = useState('')
   const [street, setStreet] = useState('')
   const [city, setCity] = useState('')
   const [age, setAge] = useState('')
 
-  const [createPerson] = useCreatePerson()
+  const [createPerson, result] = useCreatePerson({ notifyError })
 
   const handleSubmit = (e) => {
     e.preventDefault()
     createPerson({ variables: { name, phone, street, city, age: Number(age) } })
-    setName('')
-    setStreet('')
-    setPhone('')
-    setCity('')
-    setAge('')
   }
+  useEffect(() => {
+    if (result.data) {
+      setName('')
+      setStreet('')
+      setPhone('')
+      setCity('')
+      setAge('')
+    }
+  }, [result])
   return (
     <div>
       <h2>create new</h2>
