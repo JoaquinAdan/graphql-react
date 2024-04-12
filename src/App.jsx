@@ -2,12 +2,11 @@
 import './App.css'
 import { PersonForm } from './PersonForm'
 import Persons from './Persons'
-import { ALL_PERSONS } from './graphql/queries'
+import usePersons from './hooks/use-persons'
 import viteLogo from '/vite.svg'
-import { useQuery } from '@apollo/client'
 
 function App() {
-  const { data, loading, error } = useQuery(ALL_PERSONS)
+  const { data, loading, error } = usePersons()
 
   if (error) return <span style='color: red'>{error}</span>
   return (
