@@ -1,38 +1,21 @@
-import { useEffect } from 'react'
+// import { useEffect } from 'react'
 import './App.css'
+import { PersonForm } from './PersonForm'
+import Persons from './Persons'
+import { ALL_PERSONS } from './graphql/queries'
 import viteLogo from '/vite.svg'
+import { useQuery } from '@apollo/client'
 
 function App() {
-  useEffect(() => {
-    fetch('http://localhost:4000', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        query: `
-          query{
-            allPersons {
-              name
-              phone
-            }
-          }
-        `,
-      }),
-    })
-      .then((res) => res.json())
-      .then((res) => {
-        console.log(res.data)
-      })
-  }, [])
+  const { data, loading, error } = useQuery(ALL_PERSONS)
 
+  if (error) return <span style='color: red'>{error}</span>
   return (
-    <>
-      <div>
-        <img src={viteLogo} className='logo' alt='Vite logo' />
-        <h1>Vite + React</h1>
-      </div>
-    </>
+    <div>
+      <img src={viteLogo} className='logo' alt='Vite logo' />
+      {loading ? <p>Loading...</p> : <Persons persons={data?.allPersons} />}
+      <PersonForm />
+    </div>
   )
 }
 
